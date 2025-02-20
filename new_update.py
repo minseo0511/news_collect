@@ -12,8 +12,8 @@ sort = "sim"
 
 
 # 네이버 developer에서 발급 "https://developers.naver.com/apps/#/myapps/5_EbG5C0vaQvkusHOlP5/overview"
-client_id = "5_EbG5C0vaQvkusHOlP5"
-client_secret = "G0GcPi6nWN"
+client_id = ""
+client_secret = ""
 
 # url = "https://openapi.naver.com/v1/search/{검색}.json" 검색에 blog, news, 등에 따라 검색할 종목 변경
 
