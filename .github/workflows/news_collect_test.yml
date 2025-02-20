@@ -5,7 +5,7 @@ name: Collect news
 on:
   # 크론표현식을 사용하여 워크플로우 실행 설정
   schedule:
-    - cron: "0 * * * *"  # 매 정각마다 실행
+    - cron: "/5 * * * *"  # 매 정각마다 실행
 
   # 워크플로우 수동 실행
   workflow_dispatch:  # 수동 실행 가능
@@ -34,7 +34,8 @@ jobs:
 
       - name: 뉴스 가져오기
         env:
-          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          client_id: ${{ secrets.client_id }} 
+          client_secret: ${{ secrets.client_secret }}
         run: python news_update.py 
 
       - name: 변경 사항 커밋 및 푸시
