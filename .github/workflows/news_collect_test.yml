@@ -1,0 +1,46 @@
+# 워크플로우 이름 설정
+name: Collect news
+
+# 워크플로우가 언제 실행될지 정의
+on:
+  # 크론표현식을 사용하여 워크플로우 실행 설정
+  schedule:
+    - cron: "0 * * * *"  # 매 정각마다 실행
+
+  # 워크플로우 수동 실행
+  workflow_dispatch:  # 수동 실행 가능
+
+  push:
+    branches:
+      - main
+
+jobs:
+  news_collect_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # 푸시 권한 추가
+
+      - name: Python 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: 필요한 패키지 설치
+        run: pip install requests, html, re
+
+      - name: 뉴스 가져오기
+        env:
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+        run: python news_update.py 
+
+      - name: 변경 사항 커밋 및 푸시
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git add print_news.csv
+          git commit -m "Update news data (auto)"
+          git push
